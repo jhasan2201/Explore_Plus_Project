@@ -1,3 +1,44 @@
+<?php
+
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+$sql = " select menu.menu_id , breakfast_item.breakfast,breakfast_item.bcost , lunch_item.lunch,lunch_item.lcost , dinner_item.dinner , dinner_item.dcost
+    from menu 
+    inner join menu_breakfast mb 
+    on menu.menu_id = mb.menu_id
+    
+    inner join breakfast_item 
+    on mb.breakfast = breakfast_item.breakfast
+    
+    
+    inner join menu_lunch 
+    on menu.menu_id = menu_lunch.menu_id
+    
+    inner join lunch_item
+    on menu_lunch.lunch = lunch_item.lunch
+    
+    inner join menu_dinner  
+    on menu.menu_id = menu_dinner.menu_id
+    
+    inner join dinner_item  
+    on menu_dinner.dinner = dinner_item.dinner;";
+
+
+$result = mysqli_query($conn,$sql);
+
+$menuList = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+mysqli_free_result($result);
+
+mysqli_close($conn);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +51,7 @@
 <header class="header admin">
     <div class="header__logo">
         <figure>
-            <img src="../../img/logo3.png" alt="logo" title="logo" height="115" width="600">
+            <img src="../img/logo3.png" alt="logo" title="logo" height="115" width="600">
         </figure>
     </div>
     <div class="header_search">
@@ -51,45 +92,21 @@
         </tr>
         </thead>
         <tbody class="table__body">
+        <?php foreach ($menuList as $menu): ?>
         <tr>
-            <td class="table__item">3</td>
-            <td class="table__item">Paratha</td>
-            <td class="table__item">30</td>
-            <td class="table__item">Kacci</td>
-            <td class="table__item">250</td>
-            <td class="table__item">Pizza</td>
-            <td class="table__item">400</td>
+            <td class="table__item"><?php echo $menu['menu_id'] ?></td>
+            <td class="table__item"><?php echo $menu['breakfast'] ?></td>
+            <td class="table__item"><?php echo $menu['bcost'] ?></td>
+            <td class="table__item"><?php echo $menu['lunch'] ?></td>
+            <td class="table__item"><?php echo $menu['lcost'] ?></td>
+            <td class="table__item"><?php echo $menu['dinner'] ?></td>
+            <td class="table__item"><?php echo $menu['dcost'] ?></td>
             <td class="table__item edit_option">
                 <button type="submit" class="table_edit"><a href="restaurant_crud/restaurant_edit.php">Edit</a></button>
                 <button type="submit" class="table_edit diff">Delete</button>
             </td>
         </tr>
-        <tr>
-            <td class="table__item">3</td>
-            <td class="table__item">Paratha</td>
-            <td class="table__item">30</td>
-            <td class="table__item">Kacci</td>
-            <td class="table__item">250</td>
-            <td class="table__item">Pizza</td>
-            <td class="table__item">400</td>
-            <td class="table__item edit_option">
-                <button type="submit" class="table_edit"><a href="restaurant_crud/restaurant_edit.php">Edit</a></button>
-                <button type="submit" class="table_edit diff">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="table__item">3</td>
-            <td class="table__item">Paratha</td>
-            <td class="table__item">30</td>
-            <td class="table__item">Kacci</td>
-            <td class="table__item">250</td>
-            <td class="table__item">Pizza</td>
-            <td class="table__item">400</td>
-            <td class="table__item edit_option">
-                <button type="submit" class="table_edit"><a href="restaurant_crud/restaurant_edit.php">Edit</a></button>
-                <button type="submit" class="table_edit diff">Delete</button>
-            </td>
-        </tr>
+        <?php endforeach; ?>
 
         </tbody>
 

@@ -31,7 +31,7 @@ if(isset($_GET['submit'])) {
         $lunch = mysqli_real_escape_string($conn,$_GET['lunch']);
         $lunch_cost = mysqli_real_escape_string($conn,$_GET['lunch_cost']);
 
-        $sql = "INSERT INTO lunch_item(lunch,cost)
+        $sql = "INSERT INTO lunch_item(lunch,lcost)
                 VALUES ('{$lunch}','{$lunch_cost}')";
 
         if(mysqli_query($conn,$sql)){

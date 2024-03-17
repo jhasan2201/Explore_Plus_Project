@@ -1,76 +1,60 @@
 <?php
+
 $conn = mysqli_connect("localhost","root","","explore_plus");
 
 if(!$conn){
     echo "Connection Error" . mysqli_connect_error() . '<br>';
 }
 
-$breakfast = $breakfast_cost = $lunch = $lunch_cost = $dinner = $dinner_cost = "";
+$breakfast = $lunch = $dinner = "";
 
-$error = array('breakfast' =>'', 'breakfast_cost' =>'', 'lunch' =>'', 'lunch_cost'=>'', 'dinner' =>'', 'dinner_cost'=> '');
+$error = array('breakfast' => '' , 'lunch' => '' , 'dinner'=>'');
 
-if(isset($_GET['submit'])){
+if(isset($_GET['submit'])) {
 
-    if(empty($_GET['breakfast'])){
+    if (empty($_GET['breakfast'])) {
         $error['breakfast'] = "Breakfast is required";
-    }
-    else{
+    } else {
         $breakfast = $_GET['breakfast'];
     }
 
-    if(empty($_GET['breakfast_cost'])){
-        $error['breakfast_cost'] = "Breakfast Cost is required";
-    }
-    else{
-        $breakfast_cost = $_GET['breakfast_cost'];
-    }
-
-    if(empty($_GET['lunch'])){
+    if (empty($_GET['lunch'])) {
         $error['lunch'] = "Lunch is required";
-    }
-    else{
+    } else {
         $lunch = $_GET['lunch'];
     }
 
-    if(empty($_GET['lunch_cost'])){
-        $error['lunch_cost'] = "Lunch cost is required";
-    }
-    else{
-        $lunch_cost = $_GET['lunch_cost'];
-    }
-
-    if(empty($_GET['dinner'])){
+    if (empty($_GET['dinner'])) {
         $error['dinner'] = "Dinner is required";
-    }
-    else{
+    } else {
         $dinner = $_GET['dinner'];
     }
 
-    if(empty($_GET['dinner_cost'])){
-        $error['dinner_cost'] = "Dinner cost is required";
+    if (array_filter($error)) {
+
+    } else {
+        $breakfast = mysqli_real_escape_string($conn, $_GET['breakfast']);
+        $lunch = mysqli_real_escape_string($conn, $_GET['lunch']);
+        $dinner = mysqli_real_escape_string($conn, $_GET['dinner']);
+
+        $sql4 = "INSERT INTO menu (menu_id) VALUES (NULL);
+            set @menuId = LAST_INSERT_ID();
+            
+            insert into menu_breakfast(menu_id,breakfast) VALUES(@menuId,{$breakfast});
+            insert into menu_lunch(menu_id,lunch) VALUES(@menuId,{$lunch});
+            insert into menu_dinner(menu_id,dinner) VALUES(@menuId,{$dinner})";
+
+        if (mysqli_query($conn, $sql4)) {
+            header('Location: http://localhost/explore_plus/Admin/restaurant_info.php');
+        } else {
+            echo "Query error" . mysqli_error($conn);
+        }
+
     }
-    else{
-        $dinner_cost = $_GET['dinner_cost'];
-    }
-
-
-    if(array_filter($error)){
-
-    }
-    else{
-        $breakfast = mysqli_real_escape_string($conn,$_GET['breakfast']);
-        $breakfast_cost = mysqli_real_escape_string($conn,$_GET['breakfast_cost']);
-        $lunch = mysqli_real_escape_string($conn,$_GET['lunch']);
-        $lunch_cost = mysqli_real_escape_string($conn,$_GET['lunch_cost']);
-        $dinner = mysqli_real_escape_string($conn,$_GET['dinner']);
-        $dinner_cost = mysqli_real_escape_string($conn,$_GET['dinner_cost']);
-    }
-
-
 }
+//mysqli_close($conn);
 
 ?>
-
 
 
 <!DOCTYPE html>
@@ -113,36 +97,89 @@ if(isset($_GET['submit'])){
 
 <main class="main__crud">
   <h1 class="center"></h1>
-  <form class="crud__all" action="">
+  <form class="crud__all select__all" action="restaurant_add.php" method="get">
     <h3 class="crud__h3">Restaurant Add Item:</h3>
     <fieldset class="crud__fieldset">
-      <p class="crud__p">
-        <label class="crud__label" for="breakfast">Breakfast:</label>
-        <input class="crud__input" type="text" name="breakfast" id="breakfast"  required autofocus>
-      </p>
-      <p class="crud__p">
-        <label class="crud__label" for="breakfast_cost">Breakfast Cost</label>
-        <input class="crud__input" type="number" name="breakfast_cost" id="breakfast_cost"  required autofocus>
-      </p>
-      <p class="crud__p">
-        <label class="crud__label" for="lunch">Lunch</label>
-        <input class="crud__input" type="text" name="lunch" id="lunch"  required autofocus>
-      </p>
-      <p class="crud__p">
-        <label class="crud__label" for="lunch_cost">Lunch Cost</label>
-        <input class="crud__input" type="number" name="lunch_cost" id="lunch_cost"  required autofocus>
-      </p>
-      <p class="crud__p">
-        <label class="crud__label" for="dinner">Dinner</label>
-        <input class="crud__input" type="text" name="dinner" id="dinner" required autofocus>
-      </p>
-      <p class="crud__p">
-        <label class="crud__label" for="dinner_cost">Dinner Cost</label>
-        <input class="crud__input" type="number" name="dinner_cost" id="dinner_cost"  required autofocus>
-      </p>
+
+      <div class="select__whole">
+          <div class="crud__p select_div">
+            <label class="crud__label select__label" for="breakfast">Breakfast:</label>
+              <div class="select_item">
+                 <?php
+
+                 $sql = "SELECT * from breakfast_item";
+
+                 $result = mysqli_query($conn,$sql);
+
+                 $breakfasts = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+                 mysqli_free_result($result);
+
+                 ?>
+
+                <select name="breakfast" id="breakfast">
+                    <?php foreach ($breakfasts as $food): ?>
+                    <option value="<?php echo htmlspecialchars($food['breakfast']) ?>"><?php echo htmlspecialchars($food['breakfast']) ?></option>
+                   <?php endforeach; ?>
+                </select>
+            </div>
+          </div>
+
+          <div class="crud__p select_div">
+            <label class="crud__label" for="lunch">Lunch</label>
+              <div class="select_item">
+                <?php
+
+
+                  $sql2 = "SELECT * from lunch_item";
+
+                  $result2 = mysqli_query($conn,$sql2);
+
+                  $lunchs = mysqli_fetch_all($result2,MYSQLI_ASSOC);
+
+                  mysqli_free_result($result2);
+
+
+              ?>
+
+                <select name="lunch" id="lunch">
+                    <?php foreach ($lunchs as $food2): ?>
+                        <option value="<?php echo htmlspecialchars($food2['lunch']) ?>"><?php echo htmlspecialchars($food2['lunch']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+          </div>
+
+          <div class="crud__p select_div">
+            <label class="crud__label" for="dinner">Dinner</label>
+              <div class="select_item">
+                  <?php
+
+
+                  $sql3 = "SELECT * from dinner_item";
+
+                  $result3 = mysqli_query($conn,$sql3);
+
+                  $dinners = mysqli_fetch_all($result3,MYSQLI_ASSOC);
+
+                  mysqli_free_result($result3);
+
+
+                  ?>
+                  <select name="lunch" id="lunch">
+                      <?php foreach ($dinners as $food3): ?>
+                          <option value="<?php echo htmlspecialchars($food3['dinner']) ?>"><?php echo htmlspecialchars($food3['dinner']) ?></option>
+                      <?php endforeach; ?>
+                  </select>
+
+                  <?php mysqli_close($conn) ?>
+            </div>
+          </div>
+      </div>
+
     </fieldset>
     <div class="crud__div">
-      <button class="crud__btn" type="submit" name="submit">>Submit</button>
+      <button class="crud__btn" type="submit" name="submit">Submit</button>
       <button class="crud__btn diff2" type="reset">Reset</button>
     </div>
   </form>

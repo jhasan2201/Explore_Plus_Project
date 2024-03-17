@@ -1,3 +1,25 @@
+<?php
+
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+$tour_id = $_GET['tour_id'];
+
+$sql = "SELECT * FROM tour WHERE tour_id = {$tour_id}";
+
+$result = mysqli_query($conn,$sql);
+
+$tour = mysqli_fetch_assoc($result);
+
+mysqli_free_result($result);
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,53 +61,115 @@
                 </figure>
             </div>
             <div class="tour-info__place">
-                <h2 class="tour-info__h2"> Room in Badowala, India</h2>
+                <h2 class="tour-info__h2"><?php echo htmlspecialchars($tour['place_name']) . ' , ' . htmlspecialchars($tour['country'])?></h2>
                 <p class="tour-info__p"></p>
             </div>
 
             <h2 class="tour-info__about-h2" >About this place</h2>
             <div class="tour-info__about">
-                Nestled in a lesser known Suswa valley, surrounded by the Shivaliks and the Himalayan foothills, 20 km from Dehradun is Dudley Manor. Boasting of its picturesque location and lychee orchards amidst the organic farm, Dudley Manor overlooks the Himalayas. Taking one back to the roots and enjoying the simple yet often forgotten joys of life, the property has a multitude of activities to keep the guests engaged and
+               <?php echo htmlspecialchars($tour['about'])?>
             </div>
 
             <div class="tour-info__element-collection">
                 <div class="tour-info__element">
                     <i class="fa-solid fa-globe"></i>
                     <h4>Country:</h4>
-                    <div class="tour-info__country">Bangladesh</div>
+                    <div class="tour-info__country"><?php echo htmlspecialchars($tour['country']) ?></div>
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-mountain-city"></i>
                     <h4>City:</h4>
-                    <div class="tour-info__city">Dhaka</div>
+                    <div class="tour-info__city"><?php echo htmlspecialchars($tour['city']) ?></div>
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-dollar-sign"></i>
                     <h4>Budget:</h4>
-                    <div class="tour-info__budget">$ 420</div>
+                    <div class="tour-info__budget">$ <?php echo htmlspecialchars($tour['budget']) ?></div>
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-couch"></i>
                     <h4>Available Seat:</h4>
-                    <div class="tour-info__available-seat">32</div>
+                    <div class="tour-info__available-seat"><?php echo htmlspecialchars($tour['available_seat']) ?></div>
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-bus"></i>
                     <h4>Transports:</h4>
                     <ul class="transport__ul">
-                        <li>Car</li>
-                        <li>Bus</li>
+
+                        <?php
+
+                        $transportSql = "SELECT transport.type , transport.from_place , transport.to_place , transport.class
+                                        from tour 
+                                        inner join transport 
+                                        on tour.tour_id = transport.tour_id
+                                        where tour.tour_id = {$tour_id}";
+                        $transportResult = mysqli_query($conn,$transportSql);
+                        $transports = mysqli_fetch_all($transportResult,MYSQLI_ASSOC);
+
+                        ?>
+
+                        <?php foreach ($transports as $transport): ?>
+                        <li>
+                            <h4 class="transport__head"><?php echo $transport['type'] ?></h4>
+                            <div class="tour-info__fromTo">
+                                <span class="tour-info__name">From:</span>
+                                <span class="tour-info__data"><?php echo htmlspecialchars($transport['from_place']) ?></span>
+                            </div>
+                            <div class="tour-info__fromTo">
+                                <span class="tour-info__name">To:</span>
+                                <span class="tour-info__data"><?php echo htmlspecialchars($transport['to_place']) ?></span>
+                            </div>
+                            <div class="tour-info__fromTo">
+                                <span class="tour-info__name">Class:</span>
+                                <span class="tour-info__data"><?php echo htmlspecialchars($transport['class']) ?></span>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+
                     </ul>
                 </div>
                 <div class="tour-info__element">
+                    <?php
+                        $dayDurationSql = "SELECT DATEDIFF(finish_date,start_date) + 1  FROM tour WHERE tour_id = {$tour_id}";
+                        $dayDurationResult = mysqli_query($conn,$dayDurationSql);
+                        $dayDuration = mysqli_fetch_assoc($dayDurationResult);
+                    ?>
+
+
                     <i class="fa-regular fa-calendar-days"></i>
                     <h4>Tour Duration:</h4>
-                    <div class="tour-info__tour-duration">4 days</div>
+                    <?php foreach ($dayDuration as $day): ?>
+                    <div class="tour-info__tour-duration"><?php echo $day ?> days</div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-bed"></i>
+                    <?php
+
+                    $hotelSql = "SELECT hotel.name,hotel.type
+                                FROM tour 
+                                INNER join hotel  
+                                on tour.hotel_id = hotel.hotel_id
+                                WHERE tour.tour_id = {$tour_id}";
+                    $hotelResult = mysqli_query($conn,$hotelSql);
+
+                    $hotel = mysqli_fetch_assoc($hotelResult);
+
+                    ?>
+
                     <h4>Hotel:</h4>
-                    <div class="tour-info__hotel">California</div>
+                    <div class="hotel_duo">
+                        <div class="tour-info__hotel">
+                            <span class="hotel__head">Hotel Name:</span>
+                            <span class="hotel__information"><?php echo $hotel['name'] ?></span>
+                        </div>
+                        <div class="tour-info__hotel">
+                            <span class="hotel__head">Type:</span>
+                            <span class="hotel__information"><?php echo $hotel['type'] ?></span>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-map-location-dot"></i>
@@ -100,35 +184,82 @@
                     <h4>Menu-Items:</h4>
                     <div class="tour-info__menu-item">
                         <ul class="menu-item__ul">
-                            <li>Fish</li>
-                            <li>Curry</li>
-                            <li>Meat</li>
-                            <li>Chicken</li>
+                            <?php
+
+                            $menuSql = "select breakfast_item.breakfast, lunch_item.lunch , dinner_item.dinner
+                                        from menu 
+                                        inner join menu_breakfast mb 
+                                        on menu.menu_id = mb.menu_id
+                                        
+                                        inner join breakfast_item 
+                                        on mb.breakfast = breakfast_item.breakfast
+                                        
+                                        
+                                        inner join menu_lunch 
+                                        on menu.menu_id = menu_lunch.menu_id
+                                        
+                                        inner join lunch_item
+                                        on menu_lunch.lunch = lunch_item.lunch
+                                        
+                                        inner join menu_dinner  
+                                        on menu.menu_id = menu_dinner.menu_id
+                                        
+                                        inner join dinner_item  
+                                        on menu_dinner.dinner = dinner_item.dinner
+                                        
+                                        inner join tour 
+                                        on tour.menu_id = menu.menu_id
+                                        
+                                        where tour.tour_id = {$tour_id} ";
+
+                            $menuResult = mysqli_query($conn,$menuSql);
+
+                            $menus = mysqli_fetch_all($menuResult,MYSQLI_ASSOC);
+
+                            ?>
+
+
+                            <?php foreach ($menus as $menu): ?>
+                            <li>
+                                <div class="tour-info__fromTo">
+                                    <span class="tour-info__name">Breakfast:</span>
+                                    <span class="tour-info__data"><?php echo $menu['breakfast'] ?></span>
+                                </div>
+                                <div class="tour-info__fromTo">
+                                    <span class="tour-info__name">lunch:</span>
+                                    <span class="tour-info__data"><?php echo $menu['lunch'] ?></span>
+                                </div>
+                                <div class="tour-info__fromTo">
+                                    <span class="tour-info__name">Dinner:</span>
+                                    <span class="tour-info__data"><?php echo $menu['dinner']?></span>
+                                </div>
+                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </div>
                 <div class="tour-info__element tour-pairs">
                     <div class="tour-pair">
                         <i class="fa-solid fa-plane-departure"></i>
-                        <h4>Start:</h4>
-                        <div class="tour-info__start"></div>
+                        <h4>Start Date:</h4>
+                        <div class="tour-info__start"><?php echo htmlspecialchars($tour['start_date']) ?></div>
                     </div>
                     <div class="tour-pair">
                         <i class="fa-solid fa-plane-arrival"></i>
-                        <h4>End:</h4>
-                        <div class="tour-info__end"></div>
+                        <h4>End Date:</h4>
+                        <div class="tour-info__end"><?php echo htmlspecialchars($tour['finish_date']) ?></div>
                     </div>
 
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-location-dot"></i>
                     <h4>Locations:</h4>
-                    <div class="tour-info__location"></div>
+                    <div class="tour-info__location"><?php echo htmlspecialchars($tour['map']) ?></div>
                 </div>
                 <div class="tour-info__element">
                     <i class="fa-solid fa-question"></i>
                     <h4>FAQ:</h4>
-                    <div class="tour-info__query"></div>
+                    <div class="tour-info__query"><?php echo htmlspecialchars($tour['FAQ']) ?></div>
                 </div>
                 <nav class="main__tour">
                     <a href="booking.php"><span class="main__sp book">Book Now</span></a>

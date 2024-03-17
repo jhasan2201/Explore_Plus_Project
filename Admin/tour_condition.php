@@ -1,3 +1,24 @@
+<?php
+
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+$sql = "SELECT * FROM tour";
+
+$result = mysqli_query($conn,$sql);
+
+$tours = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+mysqli_free_result($result);
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +31,7 @@
 <header class="header admin">
     <div class="header__logo">
         <figure>
-            <img src="../../img/logo3.png" alt="logo" title="logo" height="115" width="600">
+            <img src="../img/logo3.png" alt="logo" title="logo" height="115" width="600">
         </figure>
     </div>
     <div class="header_search">
@@ -54,55 +75,24 @@
         </tr>
         </thead>
         <tbody>
+        <?php foreach ($tours as $tour): ?>
         <tr>
-            <td class="table__item">3</td>
-            <td class="table__item">Sydney</td>
-            <td class="table__item">Australia</td>
-            <td class="table__item">Sydney</td>
-            <td class="table__item">42000</td>
-            <td class="table__item">40</td>
-            <td class="table__item">https://maps.app.goo.gl/DLzYYKSfLbaGTqbx5</td>
-            <td class="table__item">2024-05-12</td>
-            <td class="table__item">2024-05-17</td>
-            <td class="table__item">Kavalkanti</td>
+            <td class="table__item"><?php echo $tour['tour_id']?></td>
+            <td class="table__item"><?php echo $tour['place_name']?></td>
+            <td class="table__item"><?php echo $tour['country']?></td>
+            <td class="table__item"><?php echo $tour['city']?></td>
+            <td class="table__item"><?php echo $tour['budget']?></td>
+            <td class="table__item"><?php echo $tour['available_seat']?></td>
+            <td class="table__item"><?php echo $tour['map']?></td>
+            <td class="table__item"><?php echo $tour['start_date']?></td>
+            <td class="table__item"><?php echo $tour['finish_date']?></td>
+            <td class="table__item"><?php echo $tour['guide_username']?></td>
             <td class="table__item edit_option">
                 <button type="submit" class="table_edit"><a href="trip_crud/trip_edit.php">Edit</a></button>
                 <button type="submit" class="table_edit diff">Delete</button>
             </td>
         </tr>
-        <tr>
-            <td class="table__item">3</td>
-            <td class="table__item">Sydney</td>
-            <td class="table__item">Australia</td>
-            <td class="table__item">Sydney</td>
-            <td class="table__item">42000</td>
-            <td class="table__item">40</td>
-            <td class="table__item">https://maps.app.goo.gl/DLzYYKSfLbaGTqbx5</td>
-            <td class="table__item">2024-05-12</td>
-            <td class="table__item">2024-05-17</td>
-            <td class="table__item">Kavalkanti</td>
-            <td class="table__item edit_option">
-                <button type="submit" class="table_edit"><a href="trip_crud/trip_edit.php">Edit</a></button>
-                <button type="submit" class="table_edit diff">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="table__item">3</td>
-            <td class="table__item">Sydney</td>
-            <td class="table__item">Australia</td>
-            <td class="table__item">Sydney</td>
-            <td class="table__item">42000</td>
-            <td class="table__item">40</td>
-            <td class="table__item">https://maps.app.goo.gl/DLzYYKSfLbaGTqbx5</td>
-            <td class="table__item">2024-05-12</td>
-            <td class="table__item">2024-05-17</td>
-            <td class="table__item">Kavalkanti</td>
-            <td class="table__item edit_option">
-                <button type="submit" class="table_edit"><a href="trip_crud/trip_edit.php">Edit</a></button>
-                <button type="submit" class="table_edit diff">Delete</button>
-            </td>
-        </tr>
-
+        <?php endforeach; ?>
 
         </tbody>
 

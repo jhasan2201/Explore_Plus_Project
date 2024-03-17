@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,8 @@
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
+
 <body>
 
 <header class="header admin">
@@ -38,44 +41,72 @@
 
 
 <main class="main__crud">
+
+    <?php
+    $conn = mysqli_connect("localhost","root","","explore_plus");
+
+    if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+    }
+
+    if(isset($_GET['hotel_id'])) {
+        $hotel_id = mysqli_real_escape_string($conn, $_GET['hotel_id']);
+
+        $sql = "SELECT * FROM hotel WHERE hotel_id = {$hotel_id}";
+
+        $result = mysqli_query($conn, $sql);
+
+        $hotel = mysqli_fetch_assoc($result);
+
+        mysqli_free_result($result);
+
+    }
+    mysqli_close($conn);
+
+    ?>
+
+
+
   <h1 class="center"></h1>
-  <form class="crud__all" action="">
+  <form class="crud__all" action="edit.php" method="get">
     <h3 class="crud__h3">Hotel Edit</h3>
     <fieldset class="crud__fieldset">
       <p class="crud__p">
         <label class="crud__label" for="type">Type:</label>
-        <input class="crud__input" type="text" name="type" id="type"  required autofocus>
+        <input class="crud__input" type="text" name="type" id="type" value="<?php echo htmlspecialchars($hotel['type']) ?>" required autofocus>
+          <input type="hidden" name="hotel_id" value="<?php echo htmlspecialchars($hotel_id) ?>">
       </p>
       <p class="crud__p">
         <label class="crud__label" for="name">Name</label>
-        <input class="crud__input" type="text" name="name" id="name"  required autofocus>
+        <input class="crud__input" type="text" name="name" id="name"  value="<?php echo htmlspecialchars($hotel['name']) ?>" required autofocus>
       </p>
       <p class="crud__p">
         <label class="crud__label" for="price">Price</label>
-        <input class="crud__input" type="text" name="price" id="price"  required autofocus>
+        <input class="crud__input" type="text" name="price" id="price"  value="<?php echo htmlspecialchars($hotel['price']) ?>" required autofocus>
       </p>
       <p class="crud__p">
         <label class="crud__label" for="avai-room">Avai Room</label>
-        <input class="crud__input" type="text" name="avai-room" id="avai-room"  required autofocus>
+        <input class="crud__input" type="text" name="avai-room" id="avai-room"  value="<?php echo htmlspecialchars($hotel['available_room']) ?>" required autofocus>
       </p>
       <p class="crud__p">
         <label class="crud__label" for="place">Place</label>
-        <input class="crud__input" type="text" name="place" id="place">
+        <input class="crud__input" type="text" name="place" id="place" value="<?php echo htmlspecialchars($hotel['place']) ?>">
       </p>
       <p class="crud__p">
         <label class="crud__label" for="map">Map</label>
-        <input class="crud__input" type="text" name="map" id="map">
+        <input class="crud__input" type="text" name="map" id="map" value="<?php echo htmlspecialchars($hotel['map']) ?>">
       </p>
       <p class="crud__p">
-        <label class="crud__label" for="picture">Picture</label>
-        <input class="form__input file_up" type="file" name="picture" id="picture" >
+        <label class="crud__label" for="photo">Picture</label>
+        <input class="form__input file_up" type="file" name="photo" id="photo"  >
       </p>
     </fieldset>
     <div class="crud__div">
-      <button class="crud__btn" type="submit"><a href="../hotel_info.php">Submit</a></button>
+      <button class="crud__btn" type="submit" name="submit">Submit</button>
       <button class="crud__btn diff2" type="reset">Reset</button>
     </div>
   </form>
+
 
 </main>
 
@@ -112,3 +143,5 @@
         </div>
     </div>
 </footer>
+</body>
+</html>

@@ -728,6 +728,38 @@ a:focus {
     gap: 100px;
 }
 
+.transport__ul {
+    /*background-color: var(--TEST1);*/
+}
+
+.transport__head {
+    border-bottom: 5px solid black;
+}
+
+.transport__ul li {
+    margin: 30px;
+}
+
+.tour-info__name {
+    font-weight: 600;
+}
+
+.tour-info__fromTo {
+    padding: 5px;
+}
+
+.hotel_duo{
+    padding: 10px;
+}
+
+.tour-info__hotel {
+    padding: 10px;
+}
+
+.hotel__head {
+    font-weight: 600;
+}
+
 
 .menu-item__ul,
 .transport__ul{
@@ -984,4 +1016,28 @@ a:focus {
 
 .crud__btn a {
     color: white;
+}
+
+
+/*     SELECT     */
+
+.select__all {
+    width: 1200px;
+    height: 600px;
+}
+
+.select__whole {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.select_div {
+    margin: 50px;
+}
+/*.select__label {*/
+/*    padding-bottom: 50px;*/
+/*}*/
+
+.select_item {
+    margin-top: 30px;
 }

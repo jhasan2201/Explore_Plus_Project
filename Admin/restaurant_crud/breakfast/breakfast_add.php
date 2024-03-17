@@ -31,7 +31,7 @@ if(isset($_GET['submit'])) {
         $breakfast = mysqli_real_escape_string($conn,$_GET['breakfast']);
         $breakfast_cost = mysqli_real_escape_string($conn,$_GET['breakfast_cost']);
 
-        $sql = "INSERT INTO breakfast_item(breakfast,cost)
+        $sql = "INSERT INTO breakfast_item(breakfast,bcost)
                 VALUES ('{$breakfast}','{$breakfast_cost}')";
 
         if(mysqli_query($conn,$sql)){
@@ -41,8 +41,6 @@ if(isset($_GET['submit'])) {
             echo "Query error" . mysqli_error($conn);
         }
     }
-
-
 
 
 }

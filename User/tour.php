@@ -1,3 +1,24 @@
+
+<?php
+
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+$sql = "SELECT * FROM tour";
+
+$result = mysqli_query($conn,$sql);
+
+$tours = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+mysqli_free_result($result);
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,8 +57,9 @@
 
     <div class="card__container">
         <div class="card__list">
+            <?php foreach ($tours as $tour): ?>
             <div class="card__item">
-                <a href="tour_info.php">
+                <a href="tour_info.php?tour_id=<?php echo $tour['tour_id'] ?>">
                     <div class="card__pic">
                         <figure>
                             <img src="../img/card1/c451144f-b581-4a78-a150-c89da33f8626.webp" alt="card1" width="1200" height="900">
@@ -45,112 +67,47 @@
                     </div>
                     <div class="card__desc">
                         <div class="card__location">
-                            <h3>Tarui,India</h3>
+                            <h3><?php echo htmlspecialchars($tour['place_name']) . " , " . htmlspecialchars($tour['country'])?></h3>
                         </div>
                         <div class="card__write">
-                            <p>Lorem ipsum dolor sit.</p>
+                            <p><?php echo htmlspecialchars($tour['about'])?></p>
                         </div>
                         <div class="card__start-end">
-                            <p>Feb 10-15</p>
+                            <p><?php echo htmlspecialchars($tour['start_date']) . " To " . htmlspecialchars($tour['finish_date'])?></p>
                         </div>
                         <div class="card__budget">
-                            <h3>$ 350</h3>
+                            <h3>$ <?php echo htmlspecialchars($tour['budget'])?></h3>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="card__item">
-                <a href="tour_info.php">
-                    <div class="card__pic">
-                        <figure>
-                            <img src="../img/card2/card2.webp" alt="card1" width="1440" height="1080">
-                        </figure>
-                    </div>
-                    <div class="card__desc">
-                        <div class="card__location">
-                            <h3>Tarui,India</h3>
-                        </div>
-                        <div class="card__write">
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                        <div class="card__start-end">
-                            <p>Feb 10-15</p>
-                        </div>
-                        <div class="card__budget">
-                            <h3>$ 350</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="card__item">
-                <a href="tour_info.php">
-                    <div class="card__pic">
-                        <figure>
-                            <img src="../img/card2/card2.webp" alt="card1" width="1440" height="1080">
-                        </figure>
-                    </div>
-                    <div class="card__desc">
-                        <div class="card__location">
-                            <h3>Tarui,India</h3>
-                        </div>
-                        <div class="card__write">
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                        <div class="card__start-end">
-                            <p>Feb 10-15</p>
-                        </div>
-                        <div class="card__budget">
-                            <h3>$ 350</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="card__item">
-                <a href="tour_info.php">
-                    <div class="card__pic">
-                        <figure>
-                            <img src="../img/card2/card2.webp" alt="card1" width="1440" height="1080">
-                        </figure>
-                    </div>
-                    <div class="card__desc">
-                        <div class="card__location">
-                            <h3>Tarui,India</h3>
-                        </div>
-                        <div class="card__write">
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                        <div class="card__start-end">
-                            <p>Feb 10-15</p>
-                        </div>
-                        <div class="card__budget">
-                            <h3>$ 350</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="card__item">
-                <a href="tour_info.php">
-                    <div class="card__pic">
-                        <figure>
-                            <img src="../img/card2/card2.webp" alt="card1" width="1440" height="1080">
-                        </figure>
-                    </div>
-                    <div class="card__desc">
-                        <div class="card__location">
-                            <h3>Tarui,India</h3>
-                        </div>
-                        <div class="card__write">
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                        <div class="card__start-end">
-                            <p>Feb 10-15</p>
-                        </div>
-                        <div class="card__budget">
-                            <h3>$ 350</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <?php endforeach;
+            mysqli_close($conn);
+            ?>
+
+<!--            <div class="card__item">-->
+<!--                <a href="tour_info.php">-->
+<!--                    <div class="card__pic">-->
+<!--                        <figure>-->
+<!--                            <img src="../img/card2/card2.webp" alt="card1" width="1440" height="1080">-->
+<!--                        </figure>-->
+<!--                    </div>-->
+<!--                    <div class="card__desc">-->
+<!--                        <div class="card__location">-->
+<!--                            <h3>Tarui,India</h3>-->
+<!--                        </div>-->
+<!--                        <div class="card__write">-->
+<!--                            <p>Lorem ipsum dolor sit.</p>-->
+<!--                        </div>-->
+<!--                        <div class="card__start-end">-->
+<!--                            <p>Feb 10-15</p>-->
+<!--                        </div>-->
+<!--                        <div class="card__budget">-->
+<!--                            <h3>$ 350</h3>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </div>-->
 
         </div>
     </div>

@@ -91,7 +91,7 @@ mysqli_close($conn);
                     </div>
                 </td>
                 <td class="table__item edit_option">
-                    <button type="submit" class="table_edit"><a href="hotel_crud/hotel_edit.php">Edit</a></button>
+                    <button type="submit" class="table_edit"><a href="hotel_crud/hotel_edit.php?hotel_id=<?php echo $hotel['hotel_id'] ?>">Edit</a></button>
                     <button type="submit" class="table_edit diff">Delete</button>
                 </td>
             </tr>
