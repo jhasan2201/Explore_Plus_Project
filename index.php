@@ -1,3 +1,11 @@
+<?php
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +16,7 @@
 <body>
 <section class="login">
     <div class="login__contaner">
-        <form action="">
+        <form action="index.php" method="post">
             <h1 class="login__h1">Login / Sign-up</h1>
             <div class="login__item">
                 <label for="username">Username:</label>

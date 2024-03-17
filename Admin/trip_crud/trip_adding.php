@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
 <header class="header admin">
     <div class="header__logo">
         <figure>
@@ -24,7 +25,7 @@
             <li><a href="../transaction.php">Transaction</a></li>
             <li><a href="../tour_condition.php">Tour</a></li>
             <li><a href="../finance.php">Finance</a></li>
-            <li><a href="../guide_profile.php">Guide</a></li>
+            <li><a href="../guide_info.php">Guide</a></li>
         </ul>
         <ul class="header__ul header__admin">
             <li><a href="#">Trip Adding</a></li>
@@ -34,6 +35,7 @@
         </ul>
     </nav>
 </header>
+
 
 <main class="main__form">
     <form class="form__all" action="">

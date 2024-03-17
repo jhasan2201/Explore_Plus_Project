@@ -1,3 +1,24 @@
+<?php
+
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+$sql = "SELECT * from hotel";
+
+$result = mysqli_query($conn,$sql);
+
+$hotels = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+mysqli_free_result($result);
+
+mysqli_close($conn);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +28,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
 <header class="header admin">
     <div class="header__logo">
         <figure>
-            <img src="../img/logo3.png" alt="logo" title="logo" height="115" width="600">
+            <img src="../../img/logo3.png" alt="logo" title="logo" height="115" width="600">
         </figure>
     </div>
     <div class="header_search">
@@ -24,12 +46,12 @@
             <li><a href="transaction.php">Transaction</a></li>
             <li><a href="tour_condition.php">Tour</a></li>
             <li><a href="finance.php">Finance</a></li>
-            <li><a href="guide_profile.php">Guide</a></li>
+            <li><a href="guide_info.php">Guide</a></li>
         </ul>
         <ul class="header__ul header__admin">
             <li><a href="trip_crud/trip_adding.php">Trip Adding</a></li>
             <li><a href="transportation_info.php">Transport</a></li>
-            <li><a href="#">Hotel</a></li>
+            <li><a href="hotel_info.php">Hotel</a></li>
             <li><a href="restaurant_info.php">Restaurant</a></li>
         </ul>
     </nav>
@@ -52,14 +74,15 @@
             </tr>
         </thead>
         <tbody class="table__body">
+        <?php foreach ($hotels as $hotel): ?>
             <tr>
-                <td class="table__item">california</td>
-                <td class="table__item">california</td>
-                <td class="table__item">123</td>
-                <td class="table__item">3 star</td>
-                <td class="table__item">12</td>
-                <td class="table__item">coxs</td>
-                <td class="table__item">31 st</td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['hotel_id'])?></td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['type'])?></td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['name'])?></td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['price'])?></td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['available_room'])?></td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['place'])?></td>
+                <td class="table__item"><?php echo htmlspecialchars($hotel['map'])?></td>
                 <td class="table__item">
                     <div class="hotel__pic">
                         <figure>
@@ -72,47 +95,7 @@
                     <button type="submit" class="table_edit diff">Delete</button>
                 </td>
             </tr>
-            <tr>
-                <td class="table__item">california</td>
-                <td class="table__item">california</td>
-                <td class="table__item">123</td>
-                <td class="table__item">3 star</td>
-                <td class="table__item">12</td>
-                <td class="table__item">coxs</td>
-                <td class="table__item">31 st</td>
-                <td class="table__item">
-                    <div class="hotel__pic">
-                        <figure>
-                            <img src="../img/hotel/vojtech-bruzek-Yrxr3bsPdS0-unsplash.jpg" alt="hotel1" width="4608" height="3072">
-                        </figure>
-                    </div>
-                </td>
-                <td class="table__item edit_option">
-                    <button type="submit" class="table_edit"><a href="hotel_crud/hotel_edit.php">Edit</a></button>
-                    <button type="submit" class="table_edit diff">Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="table__item">california</td>
-                <td class="table__item">california</td>
-                <td class="table__item">123</td>
-                <td class="table__item">3 star</td>
-                <td class="table__item">12</td>
-                <td class="table__item">coxs</td>
-                <td class="table__item">31 st</td>
-                <td class="table__item">
-                    <div class="hotel__pic">
-                        <figure>
-                            <img src="../img/hotel/vojtech-bruzek-Yrxr3bsPdS0-unsplash.jpg" alt="hotel1" width="4608" height="3072">
-                        </figure>
-                    </div>
-                </td>
-                <td class="table__item edit_option">
-                    <button type="submit" class="table_edit"><a href="hotel_crud/hotel_edit.php">Edit</a></button>
-                    <button type="submit" class="table_edit diff">Delete</button>
-                </td>
-            </tr>
-
+        <?php endforeach; ?>
 
         </tbody>
         <tfoot>
@@ -126,6 +109,35 @@
 </main>
 
 
-<?php
-include "header_footer/footer.php"
-?>
+<footer class="footer admin-foot">
+    <div class="footer__contact">
+        <h3 class="footer__h3">Contact us:</h3>
+        <ul class="footer__ul">
+            <li><a href="../footerPage/contact_us.html">Contact</a></li>
+            <li><a href="../footerPage/customer.html">Customer</a></li>
+            <li><a href="../footerPage/website_feedback.html">Website Feedback</a></li>
+        </ul>
+        <div class="footer__icons">
+            <i class="fa-brands fa-square-facebook"></i>
+            <i class="fa-brands fa-square-instagram"></i>
+            <i class="fa-brands fa-square-twitter"></i>
+            <i class="fa-brands fa-square-youtube"></i>
+        </div>
+    </div>
+    <div class="footer__about">
+        <h3 class="footer__h3">About us:</h3>
+        <ul class="footer__ul">
+            <li><a href="../footerPage/about__us.html">About Explore.com</a></li>
+            <li><a href="../footerPage/terms_condition.html">Terms &amp; Conditions</a></li>
+            <li><a href="../footerPage/privacy_statement.html">Privacy Statement</a></li>
+        </ul>
+        <h4 class="footer__h3">Payment Method</h4>
+        <div class="footer__icons">
+            <i class="fa-brands fa-cc-mastercard"></i>
+            <i class="fa-brands fa-cc-paypal"></i>
+            <i class="fa-brands fa-cc-amazon-pay"></i>
+            <i class="fa-brands fa-apple-pay"></i>
+            <i class="fa-brands fa-google-pay"></i>
+        </div>
+    </div>
+</footer>

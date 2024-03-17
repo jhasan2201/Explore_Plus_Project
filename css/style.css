@@ -109,6 +109,15 @@ input, textarea, button, select {
     white-space: nowrap;
 }
 
+.danger {
+    color: red;
+    height: 30px;
+}
+
+.danger p {
+    font-size: 0.8rem;
+}
+
 /* GENERAL STYLE */
 
 html {
@@ -124,7 +133,7 @@ html {
 body {
     background-color: var(--BODY-BGCOLOR);
     min-height: 100vh;
-    max-height: 400vh;
+    max-height: 800vh;
     min-width: 1200px;
     margin: 0 auto;
     border-left: var(--BORDER);
