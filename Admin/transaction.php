@@ -11,7 +11,7 @@
 <header class="header admin">
     <div class="header__logo">
         <figure>
-            <img src="../../img/logo3.png" alt="logo" title="logo" height="115" width="600">
+            <img src="../img/logo3.png" alt="logo" title="logo" height="115" width="600">
         </figure>
     </div>
     <div class="header_search">

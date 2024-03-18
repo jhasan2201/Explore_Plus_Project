@@ -6,14 +6,13 @@ if(!$conn){
     echo "Connection Error" . mysqli_connect_error() . '<br>';
 }
 
-$sql = " select menu.menu_id , breakfast_item.breakfast,breakfast_item.bcost , lunch_item.lunch,lunch_item.lcost , dinner_item.dinner , dinner_item.dcost
+$sql = "select menu.menu_id , breakfast_item.breakfast,breakfast_item.bcost , lunch_item.lunch,lunch_item.lcost , dinner_item.dinner , dinner_item.dcost
     from menu 
     inner join menu_breakfast mb 
     on menu.menu_id = mb.menu_id
     
     inner join breakfast_item 
     on mb.breakfast = breakfast_item.breakfast
-    
     
     inner join menu_lunch 
     on menu.menu_id = menu_lunch.menu_id

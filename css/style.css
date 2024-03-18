@@ -158,6 +158,25 @@ a:focus {
 
 /* PAGE:: LOGIN */
 
+.admin__access {
+    background-color: var(--ADMIN-BGCOLOR);
+    height: 70px;
+    width: 150px;
+    position: fixed;
+    top: 100px;
+    right: 150px;
+    padding: 0.5rem;
+
+    display: flex;
+    justify-content: center;
+}
+
+.admin__access a{
+    color: white;
+}
+
+
+
 .login {
     min-height: 100vh;
     display: flex;
@@ -166,6 +185,18 @@ a:focus {
     border: var(--BORDER);
 
     background-image: url("../img/background-pic2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.admin__login{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--BORDER);
+
+    background-image: url("../img/background_pic.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }

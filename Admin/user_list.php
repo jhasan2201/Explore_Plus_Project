@@ -1,3 +1,18 @@
+<?php
+
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +20,13 @@
     <title>User List</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 <body>
 
 <header class="header admin">
     <div class="header__logo">
         <figure>
-            <img src="../../img/logo3.png" alt="logo" title="logo" height="115" width="600">
+            <img src="../img/logo3.png" alt="logo" title="logo" height="115" width="600">
         </figure>
     </div>
     <div class="header_search">

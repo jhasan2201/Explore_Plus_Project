@@ -1,10 +1,5 @@
 <?php
 
-$conn = mysqli_connect("localhost","root","","explore_plus");
-
-if(!$conn){
-    echo "Connection Error" . mysqli_connect_error() . '<br>';
-}
 
 $username = $password = "";
 
@@ -32,34 +27,18 @@ if(isset($_POST['login'])){
             echo "Login Unsuccessful";
         }
         else{
-            $username = mysqli_real_escape_string($conn,$_POST['username']);
-            $password = mysqli_real_escape_string($conn,$_POST['password']);
+            $username = $_POST['username'];
+            $password = $_POST['password'];
 
-            $hash = password_hash($password,PASSWORD_DEFAULT);
-
-            $sql = "SELECT userpro.username 
-                    FROM userpro 
-                    WHERE userpro.username = '{$username}' AND userpro.password = '{$hash}'
-                    ";
-
-            $result = mysqli_query($conn,$sql);
-
-            $user = mysqli_fetch_assoc($result);
-
-            if(mysqli_num_rows($result) > 0){
-
-                session_start();
-
-                $_SESSION['username'] = $username;
-
-
-                header('Location: http://localhost/explore_plus/User/main.php');
+            if($username=="Admin" and $password=='keypass'){
+                header('Location: http://localhost/explore_plus/Admin/admin.php');
+            }
+            else{
+                echo "Login unsuccessful" ;
             }
         }
     }
 }
-
-
 
 ?>
 
@@ -68,18 +47,15 @@ if(isset($_POST['login'])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Signup</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Admin login</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-<div class="admin__access">
-    <h3><a href="Admin/admin_login.php">Admin</a></h3>
-</div>
 
-<section class="login">
+<section class="admin__login">
     <div class="login__contaner">
-        <form action="index.php" method="post">
+        <form action="admin_login.php" method="post">
             <h1 class="login__h1">Login / Sign-up</h1>
             <div class="login__item">
                 <label for="username">Username:</label>
@@ -90,8 +66,6 @@ if(isset($_POST['login'])){
                 <input class="login__input" type="password" name="password" id="password" placeholder="Enter your password">
             </div>
             <button class="login__button" type="submit" name="login">Login</button>
-            <p class="login__p">Do not Have an Account? Register</p>
-            <button class="login__button" type="submit" name="signup"><a href="User/signup.php">Register</a></button>
         </form>
     </div>
 </section>
