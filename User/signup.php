@@ -111,6 +111,10 @@ if(isset($_POST['register'])){
             VALUES ('{$name}','{$user_name}','{$hash}','{$email}','{$dob}','{$phone}','{$city}','{$country}','{$gender}','{$language}','{$past_trip}','{$profile_pic}')";
 
         if(mysqli_query($conn,$sql)){
+
+            session_start();
+            $_SESSION['username'] = $_POST['username'];
+
             header('Location: http://localhost/explore_plus/User/main.php');
         }
         else{

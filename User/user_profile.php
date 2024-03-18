@@ -1,3 +1,25 @@
+<?php
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+session_start();
+$user = $_SESSION['username'];
+
+$sql = "SELECT * FROM userpro WHERE username = '{$user}'";
+
+$result = mysqli_query($conn,$sql);
+
+$info = mysqli_fetch_assoc($result);
+
+mysqli_close($conn);
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,39 +67,39 @@
         <div class="profile__about">
             <div class="profile__info">
                 <div class="profile__label"><h3>Username</h3></div>
-                <div class="profile__data">j9248</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['username'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Name</h3></div>
-                <div class="profile__data">Jehan</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['name'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Email</h3></div>
-                <div class="profile__data">jehan@mail.com</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['email'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Date of Birth</h3></div>
-                <div class="profile__data">21 jan 2001</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['date_of_birth'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>City</h3></div>
-                <div class="profile__data">Dhaka</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['city'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Country</h3></div>
-                <div class="profile__data">BD</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['country'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Gender</h3></div>
-                <div class="profile__data">Male</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['gender'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Language</h3></div>
-                <div class="profile__data">bangla</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['language'])?></div>
             </div>
             <div class="profile__info">
                 <div class="profile__label"><h3>Phone</h3></div>
-                <div class="profile__data">01646456244</div>
+                <div class="profile__data"><?php echo htmlspecialchars($info['phone'])?></div>
             </div>
         </div>
 

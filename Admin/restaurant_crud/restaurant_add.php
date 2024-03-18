@@ -40,9 +40,9 @@ if(isset($_GET['submit'])) {
         $sql4 = "INSERT INTO menu (menu_id) VALUES (NULL);
             set @menuId = LAST_INSERT_ID();
             
-            insert into menu_breakfast(menu_id,breakfast) VALUES(@menuId,{$breakfast});
-            insert into menu_lunch(menu_id,lunch) VALUES(@menuId,{$lunch});
-            insert into menu_dinner(menu_id,dinner) VALUES(@menuId,{$dinner})";
+            insert into menu_breakfast(menu_id,breakfast) VALUES(@menuId,'{$breakfast}');
+            insert into menu_lunch(menu_id,lunch) VALUES(@menuId,'{$lunch}');
+            insert into menu_dinner(menu_id,dinner) VALUES(@menuId,'{$dinner}')";
 
         if (mysqli_query($conn, $sql4)) {
             header('Location: http://localhost/explore_plus/Admin/restaurant_info.php');
