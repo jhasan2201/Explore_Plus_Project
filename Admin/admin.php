@@ -37,6 +37,98 @@
     </nav>
 </header>
 <main class="main">
+    <div class="admin__menu">
+        <div class="admin__menu-list">
+            <a href="restaurant_info.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/food.png" alt="restaurant" width="489" height="461">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Restaurant</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="transportation_info.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/transport.png" alt="transport" width="444" height="387">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Transport</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="tour_condition.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/tour.png" alt="transport" width="388" height="386">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Tour</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="guide_profile.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/tour_guide.png" alt="transport" width="567" height="541">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Tour Guide</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="hotel_info.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/hotel.png" alt="transport" width="451" height="435">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Hotel</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="finance.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/finance.png" alt="transport" width="403" height="355">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Finance</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="customer_info.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/customer.png" alt="transport" width="397" height="366">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Customer</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="user_list.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/user.png" alt="transport" width="425" height="432">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>User</h4></div>
+            </a>
+        </div>
+        <div class="admin__menu-list">
+            <a href="transaction.php">
+                <div class="admin_menu-fig">
+                    <figure>
+                        <img src="../img/admin-icon/transaction.png" alt="transport" width="357" height="366">
+                    </figure>
+                </div>
+                <div class="admin__menu-item"><h4>Transaction</h4></div>
+            </a>
+        </div>
+    </div>
 
 
 </main>

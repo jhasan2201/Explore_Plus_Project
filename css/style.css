@@ -163,8 +163,8 @@ a:focus {
     height: 70px;
     width: 150px;
     position: fixed;
-    top: 100px;
-    right: 150px;
+    top: 50px;
+    right: 80px;
     padding: 0.5rem;
 
     display: flex;
@@ -1071,4 +1071,50 @@ a:focus {
 
 .select_item {
     margin-top: 30px;
+}
+
+
+/*  ADMIN  */
+
+.admin__menu{
+    /*background-color: var(--TEST1);*/
+    /*width: 800px;*/
+    padding: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+
+}
+
+.admin__menu-list {
+    /*background-color: var(--TEST2);*/
+    width: 220px;
+    height: 250px;
+    border-radius: var(--BORDER-LITE-RADIUS);
+    border: 2px solid black;
+}
+
+.admin_menu-fig{
+    height: 200px;
+    /*background-color: var(--TEST3);*/
+    border-top-left-radius: var(--BORDER-LITE-RADIUS);
+    border-top-right-radius: var(--BORDER-LITE-RADIUS);
+}
+
+.admin_menu-fig img{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.admin__menu-item {
+    height: 50px;
+    /*background-color: white;*/
+    border-bottom-left-radius: var(--BORDER-LITE-RADIUS);
+    border-bottom-right-radius: var(--BORDER-LITE-RADIUS);
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
