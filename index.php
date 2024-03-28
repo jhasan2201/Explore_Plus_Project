@@ -35,25 +35,26 @@ if(isset($_POST['login'])){
             $username = mysqli_real_escape_string($conn,$_POST['username']);
             $password = mysqli_real_escape_string($conn,$_POST['password']);
 
-            $hash = password_hash($password,PASSWORD_DEFAULT);
 
-            $sql = "SELECT userpro.username 
+            $sql = "SELECT userpro.password 
                     FROM userpro 
-                    WHERE userpro.username = '{$username}' AND userpro.password = '{$hash}'
-                    ";
+                    WHERE userpro.username = '{$username}'";
 
             $result = mysqli_query($conn,$sql);
 
-            $user = mysqli_fetch_assoc($result);
+            $pass = mysqli_fetch_assoc($result);
 
-            if(mysqli_num_rows($result) > 0){
 
+            if(password_verify($password,$pass['password'])){
                 session_start();
 
                 $_SESSION['username'] = $username;
 
 
                 header('Location: http://localhost/explore_plus/User/main.php');
+            }
+            else{
+                echo "login unsuccessful";
             }
         }
     }

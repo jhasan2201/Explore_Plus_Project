@@ -6,7 +6,7 @@ if(!$conn){
     echo "Connection Error" . mysqli_connect_error() . '<br>';
 }
 
-$hotel_id = $_GET['hotel_id'];
+$hotel_id = $_GET['hid'];
 
 $type = $name = $price = $avai_room = $place = $map = $photo = "";
 
@@ -74,11 +74,11 @@ if(isset($_GET['submit'])){
                 SET type = '{$type}', name = '{$name}' , price = '{$price}' , available_room = '{$avai_room}' , place = '{$place}' , map = '{$map}', photo = '{$photo}'
                 WHERE hotel_id = '{$hotel_id}'";
 
-        if (mysqli_query($conn, $sql2)) {
-            header('Location: http://localhost/explore_plus/Admin/hotel_info.php');
-        } else {
-            echo "Query error" . mysqli_error($conn);
-        }
+        mysqli_query($conn, $sql2) ;
+
+
+        header('Location: http://localhost/explore_plus/Admin/hotel_info.php');
+
 
     }
 }
@@ -163,7 +163,7 @@ if(isset($_GET['submit'])){
       <p class="crud__p">
         <label class="crud__label" for="type">Type:</label>
         <input class="crud__input" type="text" name="type" id="type" value="<?php echo htmlspecialchars($hotel['type']) ?>" required autofocus>
-          <input type="hidden" name="hotel_id" value="<?php echo htmlspecialchars($hotel_id) ?>">
+          <input type="hidden" name="hid" value="<?php echo htmlspecialchars($_GET['hotel_id']) ?>">
       </p>
       <p class="crud__p">
         <label class="crud__label" for="name">Name</label>
@@ -192,7 +192,7 @@ if(isset($_GET['submit'])){
     </fieldset>
     <div class="crud__div">
       <button class="crud__btn" type="submit" name="submit">Submit</button>
-      <button class="crud__btn diff2" type="reset">Reset</button>
+<!--      <button class="crud__btn diff2" type="reset">Reset</button>-->
     </div>
   </form>
 

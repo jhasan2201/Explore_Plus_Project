@@ -113,7 +113,7 @@ if(isset($_POST['register'])){
         if(mysqli_query($conn,$sql)){
 
             session_start();
-            $_SESSION['username'] = $_POST['username'];
+            $_SESSION['username'] = $_POST['user_name'];
 
             header('Location: http://localhost/explore_plus/User/main.php');
         }

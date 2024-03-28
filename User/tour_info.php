@@ -262,7 +262,7 @@ mysqli_free_result($result);
                     <div class="tour-info__query"><?php echo htmlspecialchars($tour['FAQ']) ?></div>
                 </div>
                 <nav class="main__tour">
-                    <a href="booking.php"><span class="main__sp book">Book Now</span></a>
+                    <a href="booking.php?tour_id=<?php echo $tour_id ?>"><span class="main__sp book">Book Now</span></a>
                 </nav>
             </div>
         </div>

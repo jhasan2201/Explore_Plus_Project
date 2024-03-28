@@ -1,3 +1,89 @@
+<?php
+$conn = mysqli_connect("localhost","root","","explore_plus");
+
+if(!$conn){
+    echo "Connection Error" . mysqli_connect_error() . '<br>';
+}
+
+$tour = $_POST['tour_id'];
+
+session_start();
+$username = $_SESSION['username'];
+
+
+
+$name = $email = $dob = $phone = $child = $adult = $senior = 0;
+$error = array('name' =>'', 'email' =>'', 'dob' => '','phone' => '','child' => '','adult' =>'', 'senior'=>'');
+
+if(isset($_POST['payment'])){
+    if(empty($_POST['name'])){
+        $error['name'] = "Name is required";
+    }
+    else{
+        $name = $_POST['name'];
+    }
+
+    if(empty($_POST['email'])){
+        $error['email'] = "Email is required";
+    }
+    else{
+        $email = $_POST['email'];
+    }
+
+    if(empty($_POST['dob'])){
+        $error['dob'] = "Date of birth is required";
+    }
+    else{
+        $dob = $_POST['dob'];
+    }
+
+    if(empty($_POST['phone'])){
+        $error['phone'] = "Phone is required";
+    }
+    else{
+        $phone = $_POST['phone'];
+    }
+
+    if(array_filter($error)){
+
+    }
+    else{
+        $name = mysqli_real_escape_string($conn,$_POST['name']);
+        $email = mysqli_real_escape_string($conn,$_POST['email']);
+        $dob = mysqli_real_escape_string($conn,$_POST['dob']);
+        $phone = mysqli_real_escape_string($conn,$_POST['phone']);
+
+        $child = mysqli_real_escape_string($conn,$_POST['child']);
+        $adult = mysqli_real_escape_string($conn,$_POST['adult']);
+        $senior = mysqli_real_escape_string($conn,$_POST['senior']);
+
+        $sql1 = "
+        START TRANSACTION;   
+         INSERT INTO booking(child,adult,senior,name,email,date_of_birth,phone)
+         VALUES ('$child','$adult','$senior','$name','$email','$dob','$phone');
+         
+         SET @booking_id = LAST_INSERT_ID();";
+
+        $sql2 = "INSERT INTO enrollment(username,booking_id,tour_id)
+         VALUES ('{$username}', @booking_id, '{$tour}');
+         COMMIT;";
+
+        if (mysqli_query($conn, $sql1) && mysqli_query($conn, $sql2)) {
+            header('Location: http://localhost/explore_plus/User/user_payment');
+        } else {
+            echo "Query error: " . mysqli_error($conn);
+        }
+
+
+//        mysqli_close($conn);
+    }
+
+
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,30 +117,32 @@
 </header>
 <main class="main">
     <div class="booking__container">
-        <div class="booking_seat">
-            <form action="" class="booking__form">
-
-                <fieldset class="booking__fieldset">
-                    <h3>Book For:</h3>
-                    <div class="booking__child">
-                        <label for="child" class="booking__label">Child:</label>
-                        <input type="number" name="child" id="child" value="0" min="0" max="40" step="1" >
-                    </div>
-                    <div class="booking__adult">
-                        <label for="adult" class="booking__label">Adult:</label>
-                        <input type="number" name="adult" id="adult" value="0" min="0" max="40" step="1" >
-                    </div>
-                    <div class="booking__senior">
-                        <label for="senior" class="booking__label">Senior:</label>
-                        <input type="number" name="senior" id="senior" value="0" min="0" max="40" step="1" >
-                    </div>
-                </fieldset>
-            </form>
-        </div>
         <div class="booking__info">
-            <form class="booking__form" action="">
+            <form class="booking__form" action="booking.php" method="post">
                 <h3 class="booking__h3">Insert senior one's information:</h3>
                 <fieldset class="booking__fieldset fieldset-two">
+                    <div class="booking_seat">
+<!--                        <form action="booking.php" method="post" class="booking__form">-->
+                            <fieldset class="booking__fieldset">
+                                <h3>Book For:</h3>
+                                <div class="booking__child">
+                                    <label for="child" class="booking__label">Child:</label>
+                                    <input type="number" name="child" id="child" value="0" min="0" max="40" step="1" >
+                                    <input type="hidden" name="tour_id" value="<?php echo $_GET['tour_id'] ?>">
+                                </div>
+                                <div class="booking__adult">
+                                    <label for="adult" class="booking__label">Adult:</label>
+                                    <input type="number" name="adult" id="adult" value="0" min="0" max="40" step="1" >
+                                </div>
+                                <div class="booking__senior">
+                                    <label for="senior" class="booking__label">Senior:</label>
+                                    <input type="number" name="senior" id="senior" value="0" min="0" max="40" step="1" >
+                                </div>
+                            </fieldset>
+<!--                        </form>-->
+                    </div>
+
+
                     <div class="booking__element">
                         <label class="booking__label"  for="name">Name:</label>
                         <input class="booking__input"  type="text" name="name" id="name"  required autofocus>
@@ -69,19 +157,21 @@
                     </div>
                     <div class="booking__element">
                         <label class="booking__label" for="phone">Phone</label>
-                        <input class="booking__input" type="url" name="phone" id="phone"  required autofocus>
+                        <input class="booking__input" type="text" name="phone" id="phone"  required autofocus>
                     </div>
+                    <div class="booking__payment booking">
+                        <nav class="main__tour booking__tour">
+                            <label for="payment"><span>Pay For Booking:</span></label>
+                            <button type="submit" name="payment"><span class="main__sp book">Payment</span></button>
+
+                            <a href="user_payment.php"></a>
+                        </nav>
+                    </div>
+        </div>
 
                 </fieldset>
-
             </form>
-        </div>
-        <div class="booking__payment booking">
-            <nav class="main__tour booking__tour">
-                <span>Pay For Booking:</span>
-                <a href="user_payment.php"><span class="main__sp book">Payment</span></a>
-            </nav>
-        </div>
+
     </div>
 
 </main>
